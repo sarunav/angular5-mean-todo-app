@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
@@ -9,6 +8,9 @@ let UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    loggedInToken: {
+        type: Object
+    },
     name: {
         type: String
     },
@@ -17,42 +19,39 @@ let UserSchema = new Schema({
         required: true,
         index: { unique: true }
     },
-	password: { 
-        type: String, 
-        reuired: true, 
-        select: false 
+    password: {
+        type: String,
+        reuired: true,
+        select: false
     }
 });
 
 UserSchema.pre('save', function(done) {
     let self = this;
-    if(self.isModified('password')) {
-      bcrypt.hash(self.password, null, null, (err, hash) => {
-        if(err) return next(err);
-  
-        this.password = hash;
-        this.updated_at = new Date().toISOString();
-        done();
-      });
+    if (self.isModified('password')) {
+        bcrypt.hash(self.password, null, null, (err, hash) => {
+            if (err) return next(err);
+
+            this.password = hash;
+            this.updated_at = new Date().toISOString();
+            done();
+        });
     } else {
-      return done();
+        return done();
     }
-  });
+});
 
-// UserSchema.methods.comparePassword = function(password) {
-//     let user = this;
-
-//     return bycrypt.compareSync(password, user.password);
-// }
-
-UserSchema.methods.comparePassword = function(password, cb) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        if (err){
-        console.log('From compare: ', err);
-        } else{
-            console.log('From compare: ', isMatch);
-        }
-    });
+UserSchema.methods.comparePassword = function(password) {
+    let promise = new Promise((resolve, reject) => {
+        bcrypt.compare(password, this.password, function(err, isMatch) {
+            if (err) {
+                reject();
+            } else {
+                resolve(isMatch);
+            }
+        });
+    })
+    return promise;
 };
 
 module.exports = mongoose.model('users', UserSchema);

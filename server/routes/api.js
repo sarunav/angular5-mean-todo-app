@@ -2,24 +2,27 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-var config = require("../config");
 var jsonwebtoken = require('jsonwebtoken');
 const bcrypt = require('bcrypt-nodejs');
 
+var config = require("../config");
+const auth = require("../controllers/auth");
+
 var secretKey = config.secretKey;
 
-function createToken(user){
-	var token = jsonwebtoken.sign({
-		id: user._id,
-		name: user.name,
-		username: user.username
-    }, 
-    secretKey, {
-		// expiresInMinutes: 1440
-    }
-);
+function createToken(user) {
+    var token = jsonwebtoken.sign({
+            id: user._id,
+            name: user.name,
+            username: user.username,
+            expiresIn: 30
+        },
+        secretKey, {
+            // expiresInMinutes: 1440
+        }
+    );
 
-	return token;
+    return token;
 }
 
 //Error handling
@@ -51,24 +54,24 @@ router.post('/user/register', (req, res) => {
     let token = createToken(user);
 
     user.save((err) => {
-        if(err){
+        if (err) {
             console.log(err);
             res.send(err);
-        }else{
+        } else {
             console.log("User registered successfuly!!");
-            res.json({ 
-					success: true,
-					message: "User has been created!",
-					token: token
-				});
+            res.json({
+                success: true,
+                message: "User has been created!",
+                token: token
+            });
         }
     })
 });
 
 //Get users
-router.get('/users', (req, res) => {
+router.get('/users', auth, (req, res) => {
     User.find({}, (err, users) => {
-        if(err){
+        if (err) {
             res.send(err);
             return;
         }
@@ -77,60 +80,96 @@ router.get('/users', (req, res) => {
 });
 
 //Login
-router.post('/login', function(req, res){
+router.post('/login', function(req, res) {
 
     User.findOne({
         userName: req.body.userName
-    }).select('name userName password').exec(function(err, user){
+    }).select('name userName password').exec(function(err, user) {
         console.log(user)
-        if(err) throw err;
+        if (err) throw err;
 
-        if(!user){
-            res.send({ message: "User does not exist"});
-        } else if (user){
-            var validPassword = user.comparePassword(req.body.password);
+        if (!user) {
+            res.send({ message: "User does not exist" });
+        } else if (user) {
+            user.comparePassword(req.body.password).then(function(isMatch) {
+                if (!isMatch) {
+                    res.json({
+                        error: true,
+                        message: 'Not a valid password'
+                    });
+                } else {
+                    let token = createToken(user);
+                    User.updateOne({ userName: req.body.userName }, { loggedInToken: token }, (err, update) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send(err)
+                        } else {
+                            console.log('User token updated')
+                        }
+                    });
 
-        //     var validPassword =  user.comparePassword(req.body.password, function(err, isMatch) {
-        //     if (err) throw err;
-        //     console.log('From api match', isMatch);
-        // });
-        console.log(validPassword)
-            if(!validPassword){
-                res.send({ message: "Invalid password"});
-            }
-             else {
-                // token
-                var token = createToken(user);
-                res.json({
-                    success: true,
-                    message: "Successful login",
-                    token: token
-                });
-            }
+                    res.json({
+                        success: true,
+                        message: "Successful login",
+                        token: token
+                    });
+                }
+            }).catch(function(err) {
+                console.log(err);
+            });
         }
     });
 });
 
+//Logout user
+router.post('/log-out', auth, (req, res) => {
+    console.log('Log out')
+    User.updateOne({ _id: ObjectId(req.decoded.id) }, { $set: { loggedInToken: '' } }, (err, update) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err)
+        } else {
+            console.log('User token updated');
+            res.status(200).send({ success: true, message: "You are now logged out" });
+        }
+    });
+})
+
+//Anything below is secured
+
+//Get logged in user
+router.get('/current-user', auth, (req, res) => {
+    User.find({ _id: ObjectId(req.decoded.id) }, (err, user) => {
+        if (err) {
+            res.send(err);
+            return;
+        }
+        res.json(user);
+    });
+});
+
 //Todos
-router.post('/todo/add', (req, res) => {
+router.post('/todo/add', auth, (req, res) => {
     let todo = new Todos({
         name: req.body.name,
         completed: req.body.completed,
-        note: req.body.note
+        note: req.body.note,
+        owner: req.decoded.id
     })
     todo.save((err) => {
-        if(err)
+        if (err)
             console.log(err)
         else
             console.log("Todo created successfuly!!");
-            res.send("Todo created successfuly!!")
+        res.send("Todo created successfuly!!")
     })
 });
 
 //Get todos
-router.get('/todos', (req, res) => {
-    Todos.find({}, (err, todo) => {
-        if(err){
+router.get('/todos', auth, (req, res) => {
+    // req.decoded.id is from auth
+    Todos.find({ owner: req.decoded.id }, (err, todo) => {
+        if (err) {
             res.send(err);
             return;
         }
@@ -139,29 +178,29 @@ router.get('/todos', (req, res) => {
 });
 
 //Get todo with ID
-router.get('/todo/:Id', (req, res) => {
+router.get('/todo/:Id', auth, (req, res) => {
     // console.log(req.params.Id)
     Todos.findById(req.params.Id, (err, result) => {
-        if(err)
+        if (err)
             console.log(err)
         else
-           res.send(result); 
+            res.send(result);
     })
 });
 
 //Edit todo
-router.post('/todo/edit/:Id', (req, res) => {
-    Todos.findById({ _id: ObjectId(req.params.Id)}, (err, update) => {
-        if(err){
+router.post('/todo/edit/:Id', auth, (req, res) => {
+    Todos.findById({ _id: ObjectId(req.params.Id) }, (err, update) => {
+        if (err) {
             console.log(err);
             res.status(500).send(err)
         } else {
             update.name = req.body.name,
-            update.completed = req.body.completed,
-            update.note = req.body.note
+                update.completed = req.body.completed,
+                update.note = req.body.note
 
             update.save((err, result) => {
-                if(err){
+                if (err) {
                     res.status(500).send(err)
                 } else {
                     res.send(result);
@@ -172,18 +211,20 @@ router.post('/todo/edit/:Id', (req, res) => {
 });
 
 //Delete todo
-router.post('/todo/delete/:Id', (req, res) => {
+router.post('/todo/delete/:Id', auth, (req, res) => {
     console.log(req.params.Id)
-    Todos.findByIdAndRemove({ _id: ObjectId(req.params.Id) }, 
-    (err, result) => {      
-        if (err) {
-            console.log("error")
-            res.send(400, "Error in delete")
-        } else {
-            res.send(200, "Deleted Successfully !!")
-        }
-    });
-})
+    Todos.findByIdAndRemove({ _id: ObjectId(req.params.Id) },
+        (err, result) => {
+            if (err) {
+                console.log("error")
+                res.send(400, "Error in delete")
+            } else {
+                res.send(200, "Deleted Successfully !!")
+            }
+        });
+});
+
+
 
 
 module.exports = router;

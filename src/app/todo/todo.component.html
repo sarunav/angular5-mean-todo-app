@@ -1,7 +1,10 @@
 <ul *ngIf="todos.length" class="mt-5">
-  <li *ngFor="let todo of todos">
-    <h2><a routerLink="/todo/{{todo._id}}">{{todo.name}}</a></h2>
-    <h4>{{todo.note}}</h4>
-  </li>
+    <li *ngFor="let todo of todos">
+        <h2><a routerLink="/todo/{{todo._id}}">{{todo.name}}</a></h2>
+        <h4>{{todo.note}}</h4>
+        <div class="form-group">
+            <label for="">Completed</label>
+            <input type="checkbox" name="complete" [(ngModel)]="todo.completed">
+        </div>
+    </li>
 </ul>
-

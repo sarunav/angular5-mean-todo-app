@@ -27,21 +27,21 @@ app.get('*', (req, res) => {
 
 //Mongodb connect
 mongoose.connect(config.database, (err) => {
-	if(err){
-		console.log("Unable to conect to database...");
-		console.log("... " + config.database);
-	} else {
-		console.log("Connected to DB");
-	}
+    if (err) {
+        console.log("Unable to conect to database...");
+        console.log("... " + config.database);
+    } else {
+        console.log("Connected to DB");
+    }
 });
 
 const http = require('http').Server(app);
 
 // Server
 http.listen(config.port, (err) => {
-	if(err){
-		console.log(err);
-	} else {
-		console.log(`Listening on port  ${config.port}`);
-	}
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(`Listening on port  ${config.port}`);
+    }
 });

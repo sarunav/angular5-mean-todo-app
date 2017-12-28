@@ -1,4 +1,8 @@
 <article class="post mt-5">
-  <h2>{{todo.name}}</h2>
-  <p>{{todo.note}}</p>
+    <h2>{{todo.name}}</h2>
+    <p>{{todo.note}}</p>
+    <div class="form-group">
+        <label for="">Completed</label>
+        <input type="checkbox" name="complete" [(ngModel)]="todo.completed">
+    </div>
 </article>

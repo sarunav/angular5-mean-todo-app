@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 let todoSchema = mongoose.Schema({
+    owner: {
+        type: String
+    },
     name: {
         type: String
     },
