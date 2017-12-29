@@ -123,7 +123,7 @@ router.post('/login', function(req, res) {
 
 //Logout user
 router.post('/log-out', auth, (req, res) => {
-    console.log('Log out')
+    console.log('Log out route')
     User.updateOne({ _id: ObjectId(req.decoded.id) }, { $set: { loggedInToken: '' } }, (err, update) => {
         if (err) {
             console.log(err);
@@ -139,7 +139,7 @@ router.post('/log-out', auth, (req, res) => {
 
 //Get logged in user
 router.get('/current-user', auth, (req, res) => {
-    User.find({ _id: ObjectId(req.decoded.id) }, (err, user) => {
+    User.findOne({ _id: ObjectId(req.decoded.id) }, (err, user) => {
         if (err) {
             res.send(err);
             return;
@@ -157,11 +157,19 @@ router.post('/todo/add', auth, (req, res) => {
         owner: req.decoded.id
     })
     todo.save((err) => {
-        if (err)
+        if (err) {
             console.log(err)
-        else
+            res.status(400).send({
+                success: false,
+                message: "Error"
+            });
+        } else {
             console.log("Todo created successfuly!!");
-        res.send("Todo created successfuly!!")
+            res.status(200).send({
+                success: true,
+                message: "Todo created"
+            });
+        }
     })
 });
 
@@ -201,9 +209,17 @@ router.post('/todo/edit/:Id', auth, (req, res) => {
 
             update.save((err, result) => {
                 if (err) {
-                    res.status(500).send(err)
+                    console.log(err);
+                    res.status(400).send({
+                        success: false,
+                        message: "Error in update"
+                    });
                 } else {
-                    res.send(result);
+                    console.log(result);
+                    res.status(200).send({
+                        success: true,
+                        message: "Todo updated"
+                    });
                 }
             });
         }
@@ -211,9 +227,9 @@ router.post('/todo/edit/:Id', auth, (req, res) => {
 });
 
 //Delete todo
-router.post('/todo/delete/:Id', auth, (req, res) => {
-    console.log(req.params.Id)
-    Todos.findByIdAndRemove({ _id: ObjectId(req.params.Id) },
+router.post('/todo/delete/:id', auth, (req, res) => {
+    console.log('Todo id: ', req.params.id)
+    Todos.findByIdAndRemove({ _id: ObjectId(req.params.id) },
         (err, result) => {
             if (err) {
                 console.log("error")

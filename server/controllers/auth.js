@@ -11,7 +11,7 @@ let auth = router.use((req, res, next) => {
     console.log("Somebody requested secure area!");
     //Provide 'x-access-token' as key in headers
     let token = req.headers['x-access-token'];
-    console.log(token)
+    console.log('Auth token: ', token)
 
     if (token) {
         User.findOne({ loggedInToken: token }, (err, user) => {

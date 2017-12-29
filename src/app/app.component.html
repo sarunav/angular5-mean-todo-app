@@ -10,16 +10,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/todos">Todos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" (click)="logOutUser()">Logout</a>
-                </li>
             </ul>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Account
+                            </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/register">Register</a>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/my-account">My account</a>
+                    <hr>
+                    <a class="dropdown-item" (click)="logOutUser()">Logout</a>
+                </div>
+            </div>
+
         </div>
     </div>
 </nav>

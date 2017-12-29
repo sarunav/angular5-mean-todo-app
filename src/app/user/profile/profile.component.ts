@@ -8,19 +8,32 @@ import { UserService } from '../user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: User = new User;
+  user: User = {};
   
     constructor(
       private userService: UserService
     ) { }
 
     ngOnInit() {
-      this.userService.getCurrentUser().subscribe(res => {
+      this.userService.getCurrentUser()
+      .subscribe(res => {
         console.log('Current user', res);
+        // this.user = res;
         this.user = res as User;
       }, err => {
         console.log(err);
       });
     }
+    
+
+    // currentUser(){
+    //   this.userService.getCurrentUser()
+    //   .subscribe(res => {
+    //     console.log('Current user', res);
+    //     this.user = res as User;
+    //   }, err => {
+    //     console.log(err);
+    //   });
+    // }
 
 }

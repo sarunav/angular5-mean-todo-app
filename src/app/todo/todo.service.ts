@@ -34,6 +34,36 @@ export class TodoService {
       return Observable.throw(err);
     });
   }
+
+  addTodo(name: string, note: string): Observable<Todo> {
+    return this.http.post('/api/todo/add', { name: name, note: note}, { headers: this.headers })
+    .catch(err => {
+      return Observable.throw(err);
+    })
+  }
+
+  editTodo(id: string, name: string, note: string, completed: boolean): Observable<Todo> {
+    return this.http.post('/api/todo/edit/' + id, {name: name, note: note, completed: completed}, { headers: this.headers })
+    .catch(err => {
+      return Observable.throw(err);
+    })
+  }
+
+  // updateTodoStatus(id: string, name: string, note: string, completed: boolean): Observable<Todo> {
+  //   return this.http.post('/api/todo/edit/' + id, {completed: completed}, { headers: this.headers })
+  //   .catch(err => {
+  //     return Observable.throw(err);
+  //   })
+  // }
+
+  deleteTodo(id: string): Observable<Todo> {
+    return this.http.post('/api/todo/delete/' + id, {}, {headers: this.headers})
+    .map(res => res as Todo[])
+    .catch(err => {
+      return Observable.throw(err);
+    })
+  }
+
   }
 
 

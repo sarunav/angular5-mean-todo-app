@@ -154,3 +154,6 @@ export class DataService {
 }
 
 Now go to app.module.ts and import the modules
+
+
+https://limonte.github.io/sweetalert2/

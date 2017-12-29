@@ -40,18 +40,20 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<User> {
-    return this.http.get('/api/current-user', {headers: this.headers}).catch(err => {
+    return this.http.get('/api/current-user', { headers: this.headers }).catch(err => {
       return Observable.throw(err);
 });
 
   };
 
-//   logOut(){
-//     console.log('from logout', this.headers)
-//     return this.http.post('/api/log-out', {headers: this.headers}).catch(err => {
-//       return Observable.throw(err);
-// });
-//   }
+  logOut(): Observable<User>{
+    console.log('from logout service')
+    return this.http.post('/api/log-out', {}, { headers: this.headers })
+    .map(res => res as User)
+    .catch(err => {
+      return Observable.throw(err);
+});
+  }
 
 // logOut(): Observable<any> {
 //   let url = '/api/log-out';
@@ -62,8 +64,8 @@ export class UserService {
 // })
 // }
 
-logOut(){
-  localStorage.removeItem('accessToken');
-}
+// logOut(){
+//   localStorage.removeItem('accessToken');
+// }
 
 }

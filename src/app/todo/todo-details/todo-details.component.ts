@@ -27,7 +27,17 @@ export class TodoDetailsComponent implements OnInit {
       console.log(response);
           }, err => {
             console.log(err);
-          });
+          });  
+  }
+
+  saveEditedTodo(){
+    let newTodo = this.todo;
+    this.todoService.editTodo(newTodo._id, newTodo.name, newTodo.note, newTodo.completed)
+    .subscribe(response => {
+      console.log(response);
+    }, err => {
+      console.log(err);
+    })
   }
 
 }

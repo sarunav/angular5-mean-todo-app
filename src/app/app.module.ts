@@ -16,6 +16,7 @@ import { LoginComponent } from './user/login/login.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { SignupComponent } from './user/signup/signup.component';
 import { UserService } from './user/user.service';
+import { AddTodoComponent } from './todo/add-todo/add-todo.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   { path: 'register', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'my-account', component: ProfileComponent },
+  { path: 'add-todo', component: AddTodoComponent },
 
   // { path: '', redirectTo: '' }
 ];
@@ -36,7 +38,8 @@ const appRoutes: Routes = [
     HomeComponent,
     LoginComponent,
     ProfileComponent,
-    SignupComponent
+    SignupComponent,
+    AddTodoComponent
   ],
   imports: [
     BrowserModule,

@@ -27,21 +27,20 @@ export class AppComponent {
     // });
      this.userService.getCurrentUser()
      .subscribe(data => {
-       console.log('Logged in user: ', data);
+      //  console.log('Logged in user: ', data);
      })
   }
 
   
   logOutUser() {
-    console.log('Logged out')
     this.userService.logOut()
-    this.router.navigate(['/login']);
-    // .subscribe(res => {
-    //   console.log(res);
-    //   localStorage.removeItem('accessToken');
-    // }, err => {
-    //   console.log(err);
-    // })
+    .subscribe(res => {
+      console.log(res);
+      localStorage.removeItem('accessToken');
+      this.router.navigate(['/login']);
+    }, err => {
+      console.log(err);
+    })
   }
 
 }

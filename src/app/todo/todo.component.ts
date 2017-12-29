@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from './todo';
 import { TodoService } from './todo.service';
+declare var swal: any;
 
 @Component({ 
   selector: 'app-todo',
@@ -23,5 +24,42 @@ export class TodoComponent implements OnInit {
       console.log(err);
     });
   }
+
+  updateTodoStatus(id, name, note, completed){
+    this.todoService.editTodo(id, name, note, completed)
+    .subscribe(response => {
+      console.log(response);
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  deleteTodo(todo){
+    let self = this;
+
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result) {
+        swal(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success',
+          self.todoService.deleteTodo(todo)
+              .subscribe(res => {
+                console.log('Todo deleted');
+            }, err => {
+              console.log(err);
+            })
+        )
+      }
+    })
+};
 
 }

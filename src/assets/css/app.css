@@ -1,0 +1,43 @@
+.completed-checkbox {
+    position: relative;
+    display: inline;
+}
+
+.completed-checkbox label {
+    margin-left: 15px;
+}
+
+.completed-checkbox label span:before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    left: -10px;
+    bottom: 0;
+    position: absolute;
+    background-color: #fff;
+    border: 2px #1222b6 solid;
+    /* border-radius: 50%; */
+}
+
+.completed-checkbox input[type='checkbox'] {
+    display: none;
+}
+
+.completed-checkbox input[type='checkbox']:checked+span:after {
+    font-family: 'FontAwesome';
+    content: "\f00c";
+    color: #1222b6;
+    font-size: 13px;
+    text-align: center;
+    left: -6px;
+    position: absolute;
+    line-height: 23px;
+}
+
+.completed-checkbox input[type='checkbox']:checked+span {
+    color: #1222b6;
+}
+
+.done {
+    text-decoration: line-through;
+}

@@ -1,0 +1,13 @@
+<div class="col-md-6">
+    <form #addForm="ngForm" (ngSubmit)="addTodo()">
+        <div class="form-group">
+            <label for="user-email">Todo</label>
+            <input name="todoname" type="text" class="form-control" id="todo-name" [(ngModel)]="todo.name" required>
+        </div>
+        <div class="form-group">
+            <label for="todo-note">Note</label>
+            <textarea rows="5" name="todo-note" type="text" class="form-control" id="note" [(ngModel)]="todo.note" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Add</button>
+    </form>
+</div>
