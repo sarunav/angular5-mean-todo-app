@@ -39,14 +39,14 @@ export class TodoService {
     return this.http.post('/api/todo/add', { name: name, note: note}, { headers: this.headers })
     .catch(err => {
       return Observable.throw(err);
-    })
+    });
   }
 
   editTodo(id: string, name: string, note: string, completed: boolean): Observable<Todo> {
     return this.http.post('/api/todo/edit/' + id, {name: name, note: note, completed: completed}, { headers: this.headers })
     .catch(err => {
       return Observable.throw(err);
-    })
+    });
   }
 
   // updateTodoStatus(id: string, name: string, note: string, completed: boolean): Observable<Todo> {

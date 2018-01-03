@@ -12,13 +12,13 @@ export class AuthService {
   ) { }
 
   headers = new HttpHeaders({
-    'Content-type':'application/json',
-  })
+    'Content-type': 'application/json',
+  });
 
-  setUser(user: User){
-    console.log('from auth: ', user.userName)
+  setUser(user: User) {
+    console.log('from auth: ', user.userName);
     let userString = JSON.stringify(user);
-    localStorage.setItem("Current User:", userString);
+    localStorage.setItem("Current User:", userString); 
   }
 
   getCurrentUser(): User {
@@ -26,7 +26,7 @@ export class AuthService {
     if(!isNullOrUndefined(userString)){
       let user: User = JSON.parse(userString);
       return user;
-    }else{
+    }else {
       return null;
     }
   }

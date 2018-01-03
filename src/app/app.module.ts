@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoService } from './todo/todo.service';
 import { AuthService } from './user/auth.service';
 import { AppComponent } from './app.component';
@@ -17,10 +17,12 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { SignupComponent } from './user/signup/signup.component';
 import { UserService } from './user/user.service';
 import { AddTodoComponent } from './todo/add-todo/add-todo.component';
+// import { AccessGuard } from './user/login-activate-guard';
+// import { LoginActivate } from './user/login-activate-guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'todos', component: TodoComponent },
+  { path: 'todos', component: TodoComponent, data: {requiresLogin: true} },
   { path: 'todo/:id', component: TodoDetailsComponent },
   { path: 'register', component: SignupComponent },
   { path: 'login', component: LoginComponent },

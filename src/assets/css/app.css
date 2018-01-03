@@ -41,3 +41,19 @@
 .done {
     text-decoration: line-through;
 }
+.edit-todo .form-group{
+    text-align: left;
+}
+.check-box-wrap{
+    text-align: left;
+    margin-left: 14px;
+}
+.add-todo-btn-wrap{
+    text-align: right
+}
+.btn.btn-danger.btn-sm{
+    color: #fff;
+}
+.btn.btn-danger.btn-sm:focus, .btn.btn-danger.btn-sm:hover{
+    color: #fff;
+}

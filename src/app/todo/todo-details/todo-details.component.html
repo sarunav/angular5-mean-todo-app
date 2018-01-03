@@ -1,11 +1,11 @@
-<div class="col-md-6 offset-md-2 mt-5">
+<div class="col-md-6 offset-md-3 mt-5">
     <div class="jumbotron mt-3 text-center">
-        <h2>{{todo.name}}</h2>
-        <p>{{todo.note}}</p>
+        <h2 [ngClass]="{'done':todo.completed === true}">{{todo.name}}</h2>
+        <p [ngClass]="{'done':todo.completed === true}">{{todo.note}}</p>
         <div>
             <div class="completed-checkbox">
                 <label>
-                            <input name="complete" type="checkbox" [(ngModel)]="todo.completed">
+                            <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
                             <span id="radio">Completed</span>
                         </label>
             </div>
@@ -13,10 +13,11 @@
     </div>
 </div>
 
-<div class="col-md-6 offset-md-2 mt-3">
+<div class="col-md-6 offset-md-3 mt-3 edit-todo">
     <div class="jumbotron mt-3 text-center">
         <h2>Edit Todo</h2>
-        <div class="col-md-6">
+        <div class="row">
+        <div class="col-md-12">
             <form #editForm="ngForm" (ngSubmit)="saveEditedTodo()">
                 <div class="form-group">
                     <label for="user-name">Todo</label>
@@ -26,14 +27,20 @@
                     <label for="todo-note">Note</label>
                     <textarea rows="5" name="todo-note" type="text" class="form-control" id="note" [(ngModel)]="todo.note" required></textarea>
                 </div>
-                <div class="completed-checkbox">
-                    <label>
-                                <input name="complete" type="checkbox" [(ngModel)]="todo.completed">
-                                <span id="radio">Completed</span>
-                            </label>
+                <div class="check-box-wrap">
+                    <div class="completed-checkbox">
+                        <label>
+                                    <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
+                                    <span id="radio">Completed</span>
+                                </label>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-success">Update</button>
+                
+                <div>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
             </form>
         </div>
+    </div>
     </div>
 </div>

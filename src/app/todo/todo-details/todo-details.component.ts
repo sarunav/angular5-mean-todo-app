@@ -3,6 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { TodoService } from '../todo.service';
 import 'rxjs/add/operator/switchMap';
 import { Todo } from '../todo';
+import { ToasterService } from 'angular2-toaster/src/toaster.service';
+import { Toast } from 'angular2-toaster/src/toast';
 
 @Component({
   selector: 'app-todo-details',
@@ -15,7 +17,8 @@ export class TodoDetailsComponent implements OnInit {
 
   constructor(
     private router: ActivatedRoute,
-    protected todoService: TodoService
+    protected todoService: TodoService,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit() {
@@ -27,17 +30,33 @@ export class TodoDetailsComponent implements OnInit {
       console.log(response);
           }, err => {
             console.log(err);
-          });  
+          });
   }
 
-  saveEditedTodo(){
-    let newTodo = this.todo;
-    this.todoService.editTodo(newTodo._id, newTodo.name, newTodo.note, newTodo.completed)
+  updateTodoStatus(id, name, note, completed) {
+    this.todoService.editTodo(id, name, note, completed)
     .subscribe(response => {
       console.log(response);
     }, err => {
       console.log(err);
-    })
+    });
+  }
+
+  saveEditedTodo() {
+    const newTodo = this.todo;
+    this.todoService.editTodo(newTodo._id, newTodo.name, newTodo.note, newTodo.completed)
+    .subscribe(response => {
+      console.log(response);
+
+      // const toastSuccess: Toast = {
+      //   type: 'success',
+      //   title: 'Success',
+      //   body: response,
+      // };
+      // this.toasterService.pop(toastSuccess);
+    }, err => {
+      console.log(err);
+    });
   }
 
 }

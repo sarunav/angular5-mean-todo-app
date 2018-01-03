@@ -28,10 +28,9 @@ export class AppComponent {
      this.userService.getCurrentUser()
      .subscribe(data => {
       //  console.log('Logged in user: ', data);
-     })
+     });
   }
 
-  
   logOutUser() {
     this.userService.logOut()
     .subscribe(res => {
@@ -40,7 +39,7 @@ export class AppComponent {
       this.router.navigate(['/login']);
     }, err => {
       console.log(err);
-    })
+    });
   }
 
 }

@@ -25,17 +25,17 @@ export class TodoComponent implements OnInit {
     });
   }
 
-  updateTodoStatus(id, name, note, completed){
+  updateTodoStatus(id, name, note, completed) {
     this.todoService.editTodo(id, name, note, completed)
     .subscribe(response => {
       console.log(response);
     }, err => {
       console.log(err);
-    })
+    });
   }
 
-  deleteTodo(todo){
-    let self = this;
+  deleteTodo(todo) {
+    const self = this;
 
     swal({
       title: 'Are you sure?',
