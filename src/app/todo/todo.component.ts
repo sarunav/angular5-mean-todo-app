@@ -57,9 +57,9 @@ export class TodoComponent implements OnInit {
             }, err => {
               console.log(err);
             })
-        )
+        );
       }
-    })
-};
+    });
+}
 
 }

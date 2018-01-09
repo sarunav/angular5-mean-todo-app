@@ -17,19 +17,18 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { SignupComponent } from './user/signup/signup.component';
 import { UserService } from './user/user.service';
 import { AddTodoComponent } from './todo/add-todo/add-todo.component';
-// import { AccessGuard } from './user/login-activate-guard';
-// import { LoginActivate } from './user/login-activate-guard';
+import { AuthGuardService } from './user/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'todos', component: TodoComponent, data: {requiresLogin: true} },
-  { path: 'todo/:id', component: TodoDetailsComponent },
+  { path: 'todos', component: TodoComponent, canActivate: [AuthGuardService] },
+  { path: 'todo/:id', component: TodoDetailsComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'my-account', component: ProfileComponent },
-  { path: 'add-todo', component: AddTodoComponent },
+  { path: 'my-account', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'add-todo', component: AddTodoComponent, canActivate: [AuthGuardService] },
 
-  // { path: '', redirectTo: '' }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
@@ -51,7 +50,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [TodoService, AuthService, UserService],
+  providers: [TodoService, AuthService, UserService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

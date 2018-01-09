@@ -43,10 +43,10 @@ export class LoginComponent implements OnInit {
         type: 'success',
         title: 'Success',
         body: response.message,
-      };  
+      };
       this.toasterService.pop(toastSuccess);
 
-      //redirect to profile page
+      // redirect to profile page
       this.router.navigate(['/my-account']);
 
     }, err => {
@@ -55,9 +55,9 @@ export class LoginComponent implements OnInit {
         type: 'error',
         title: 'Error',
         body: err,
-      };  
+      };
       this.toasterService.pop(toastErr);
-    })
+    });
   }
 
 }

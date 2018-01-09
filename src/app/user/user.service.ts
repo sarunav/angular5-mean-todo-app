@@ -17,12 +17,12 @@ export class UserService {
   ) { }
 
   headers = new HttpHeaders({
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     'x-access-token': this.authService.getToken()
   });
 
   login(userName: string, password: string): Observable<any> {
-    let url = this.serverUrl + "/login";
+    let url = this.serverUrl + '/login';
     return this.http.post(url, { userName: userName, password: password })
     .map(res => res as User)
     .catch(err => {
@@ -31,38 +31,28 @@ export class UserService {
   }
 
   register(name: string, userName: string, password: string): Observable<any> {
-    let url = this.serverUrl + "/user/register";
+    let url = this.serverUrl + '/user/register';
     return this.http.post(url, { name: name, userName: userName, password: password })
     .map(res => res as User)
     .catch(err => {
       return Observable.throw(err);
-    })
+    });
   }
 
   getCurrentUser(): Observable<User> {
     return this.http.get('/api/current-user', { headers: this.headers }).catch(err => {
       return Observable.throw(err);
 });
+  }
 
-  };
-
-  logOut(): Observable<User>{
-    console.log('from logout service')
+  logOut(): Observable<User> {
+    console.log('from logout service');
     return this.http.post('/api/log-out', {}, { headers: this.headers })
     .map(res => res as User)
     .catch(err => {
       return Observable.throw(err);
 });
   }
-
-// logOut(): Observable<any> {
-//   let url = '/api/log-out';
-// return this.http.post(url, {loggedInToken: this.authService.getToken()}, {headers: this.headers})
-// .map(res => res as User[])
-// .catch(err => {
-// return Observable.throw(err);
-// })
-// }
 
 // logOut(){
 //   localStorage.removeItem('accessToken');

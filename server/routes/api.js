@@ -93,16 +93,19 @@ router.post('/login', function(req, res) {
         } else if (user) {
             user.comparePassword(req.body.password).then(function(isMatch) {
                 if (!isMatch) {
-                    res.json({
+                    res.status(403).send({
                         error: true,
                         message: 'Not a valid password'
-                    });
+                    })
                 } else {
                     let token = createToken(user);
                     User.updateOne({ userName: req.body.userName }, { loggedInToken: token }, (err, update) => {
                         if (err) {
                             console.log(err);
-                            res.status(500).send(err)
+                            res.status(403).send({
+                                error: true,
+                                message: 'User token update failed'
+                            })
                         } else {
                             console.log('User token updated')
                         }

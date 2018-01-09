@@ -18,13 +18,14 @@ export class AuthService {
   setUser(user: User) {
     console.log('from auth: ', user.userName);
     let userString = JSON.stringify(user);
-    localStorage.setItem("Current User:", userString); 
+    localStorage.setItem('Current User:', userString);
   }
 
   getCurrentUser(): User {
-    let userString = localStorage.getItem("currentUser");
-    if(!isNullOrUndefined(userString)){
+    let userString = localStorage.getItem('currentUser');
+    if (!isNullOrUndefined(userString)) {
       let user: User = JSON.parse(userString);
+      console.log('From getCurrent user method: ', user)
       return user;
     }else {
       return null;
@@ -32,16 +33,20 @@ export class AuthService {
   }
 
   setToken(token: string) {
-    localStorage.setItem("accessToken", token);
+    localStorage.setItem('accessToken', token);
   }
 
   getToken(): string {
-    return localStorage.getItem("accessToken");
+    return localStorage.getItem('accessToken');
   }
 
   getLoggedInUser(user: User) {
     let userString = JSON.stringify(user);
     console.log('Loggedin user: ', userString);
+}
+
+isAuthenticated() {
+  return this.getToken() != null;
 }
 
   }

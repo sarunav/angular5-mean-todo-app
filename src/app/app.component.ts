@@ -1,3 +1,4 @@
+import { AuthService } from './user/auth.service';
 import { Component, OnInit  } from '@angular/core';
 import { DataService } from './data.service';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +18,8 @@ export class AppComponent {
   constructor(
     private http: HttpClient,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
   }
 
@@ -27,7 +29,7 @@ export class AppComponent {
     // });
      this.userService.getCurrentUser()
      .subscribe(data => {
-      //  console.log('Logged in user: ', data);
+       console.log(data);
      });
   }
 

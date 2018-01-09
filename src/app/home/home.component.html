@@ -1,11 +1,13 @@
-<div class="col-md-6 offset-md-3">
+<div class="col-md-10 offset-md-1">
     <div class="jumbotron mt-3 text-center">
         <h1 class="display-3">Hello, there!</h1>
         <p class="lead">This is a simple todo app with user authentication using Angular 5 and node js!</p>
         <hr class="my-4">
-        <p>Create your account to start using todo app!!</p>
+        <p *ngIf="!authService.isAuthenticated()">Create your account to start using todo app!!</p>
+        <p *ngIf="authService.isAuthenticated()">Click the below button to see your todos!!</p>
         <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/todos">My Todo</a>
+            <a *ngIf="authService.isAuthenticated()" class="btn btn-primary btn-lg" href="#" role="button" routerLink="/todos">My Todo</a>
+            <a *ngIf="!authService.isAuthenticated()" class="btn btn-primary btn-lg" href="#" role="button" routerLink="/register">Sign Up</a>
         </p>
     </div>
 </div>
