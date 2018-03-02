@@ -1,10 +1,10 @@
-<div class="col-md-6 mt-5">
+<!-- <div class="col-md-6 mt-5">
     <h2>Add todo</h2>
-    <hr>
+    <hr> 
     <form #addForm="ngForm" (ngSubmit)="addTodo()">
         <div class="form-group">
             <label for="user-email">Todo</label>
-            <input name="todoname" type="text" class="form-control" id="todo-name" [(ngModel)]="todo.name" required>
+            <input name="todoname" type="text" class="form-control" id="todo-name" [(ngModel)]="todo.name" #todoname="ngModel" required>
         </div>
         <div class="form-group">
             <label for="todo-note">Note</label>
@@ -12,4 +12,33 @@
         </div>
         <button type="submit" class="btn btn-success">Add</button>
     </form>
-</div>
+</div> -->
+
+<section id="add-todo-section">
+    <div class="dark-overlay">
+        <div class="section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                            <div class="card">
+                                    <h3 class="card-header bg-primary text-center">Create todo</h3>
+                                    <div class="card-block">
+                                            <form #addForm="ngForm" (ngSubmit)="addTodo()">
+                                                    <div class="form-group">
+                                                        <label for="user-email">Todo</label>
+                                                        <input name="todoname" type="text" class="form-control" id="todo-name" [(ngModel)]="todo.name" #todoname="ngModel" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="todo-note">Note</label>
+                                                        <textarea rows="5" name="todo-note" type="text" class="form-control" id="note" [(ngModel)]="todo.note"></textarea>
+                                                    </div>
+                                                    <button type="submit" [disabled]="!addForm.valid" class="btn btn-success btn-lg btn-block"><span *ngIf="loading">Saving...</span><span *ngIf="!loading">Save</span></button>
+                                                </form>
+                                    </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

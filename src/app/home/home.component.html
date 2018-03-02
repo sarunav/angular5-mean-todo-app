@@ -1,13 +1,33 @@
-<div class="col-md-10 offset-md-1">
-    <div class="jumbotron mt-3 text-center">
-        <h1 class="display-3">Hello, there!</h1>
-        <p class="lead">This is a simple todo app with user authentication using Angular 5 and node js!</p>
-        <hr class="my-4">
-        <p *ngIf="!authService.isAuthenticated()">Create your account to start using todo app!!</p>
-        <p *ngIf="authService.isAuthenticated()">Click the below button to see your todos!!</p>
-        <p class="lead">
-            <a *ngIf="authService.isAuthenticated()" class="btn btn-primary btn-lg" href="#" role="button" routerLink="/todos">My Todo</a>
-            <a *ngIf="!authService.isAuthenticated()" class="btn btn-primary btn-lg" href="#" role="button" routerLink="/register">Sign Up</a>
-        </p>
+<section id="header-section">
+    <div class="dark-overlay">
+        <div class="section-inner text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="display-4">
+                                A <strong>to-do</strong> list that suggests what to do <strong>next</strong>
+                        </h1>
+                        <div class="flex-row">
+                            <h3 class="p-4 align-self-end">
+                                A simple todo app with user authentication using Angular 5 and node js
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-wrapper">
+                        <div class="row">
+                    <div class="col-lg-6">
+                        <button *ngIf="!authService.isAuthenticated()" class="btn btn-primary btn-lg btn-block" routerLink="/signup"><strong>SIGN UP</strong></button>
+                        <button *ngIf="authService.isAuthenticated()" class="btn btn-primary btn-lg btn-block" routerLink="/todos"><strong>MY TODOS</strong></button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button *ngIf="!authService.isAuthenticated()" class="btn btn-primary btn-lg btn-block"  routerLink="/login"><strong>LOGIN</strong></button>
+                        <button *ngIf="authService.isAuthenticated()" class="btn btn-primary btn-lg btn-block"  routerLink="/add-todo"><strong>ADD TODO</strong></button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>

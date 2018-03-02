@@ -6,15 +6,15 @@
   </button>
   <ul class="navbar-nav mr-auto">
     <li class="nav-item">
-            <a class="navbar-brand" routerLink="/">Todo App</a>
+            <a class="navbar-brand" routerLink="/"><img src="../assets/img/todo-icon.svg"> TaskLists</a>
         </li>
         </ul>
         
         <div class="collapse navbar-collapse" id="navbarNav">
 
-            <ul *ngIf="!authService.isAuthenticated()" class="navbar-nav">
+            <ul *ngIf="!authService.isAuthenticated()" class="navbar-nav ml-auto">
                     <li class="nav-item">
-                            <a class="nav-link" routerLink="/register">Register</a>
+                            <a class="nav-link" routerLink="/signup">Signup</a>
                     </li>
                     <li class="nav-item">
                             <a class="nav-link" routerLink="/login">Login</a>
@@ -22,7 +22,7 @@
                     
                 </ul>
 
-                <ul *ngIf="authService.isAuthenticated()" class="navbar-nav">
+                <ul *ngIf="authService.isAuthenticated()" class="navbar-nav ml-auto">
                         <li class="nav-item">
                                 <a class="nav-link" routerLink="/my-account">My account</a>
                         </li>
@@ -30,17 +30,14 @@
                                 <a class="nav-link" (click)="logOutUser()">Logout</a>
                         </li>
                 </ul>
-
-            
-
         </div>
     </div>
 </nav>
 
-<div class="container mt-5">
+<!-- <div class="container mt-5">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12"> -->
             <router-outlet></router-outlet>
-        </div>
+        <!-- </div>
     </div>
-</div>
+</div> -->

@@ -13,6 +13,7 @@ import { Toast } from 'angular2-toaster/src/toast';
 })
 export class SignupComponent implements OnInit {
   register: User = new User;
+  loading = false;
 
   constructor(
     private userService: UserService,
@@ -28,6 +29,7 @@ export class SignupComponent implements OnInit {
     console.log('Signup data ', this.register);
 
     let register = this.register;
+    this.loading = true;
     this.userService.register(register.name, register.userName, register.password)
     .subscribe(response => {
       console.log(response);
@@ -38,7 +40,7 @@ export class SignupComponent implements OnInit {
         body: response.message, 
       };  
       this.toasterService.pop(toastSuccess);
-
+      this.loading = false;
       //redirect to profile page
       this.router.navigate(['/login']);
     }, err => {

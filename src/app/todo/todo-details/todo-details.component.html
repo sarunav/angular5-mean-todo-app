@@ -1,46 +1,63 @@
-<div class="col-md-6 offset-md-3 mt-5">
-    <div class="jumbotron mt-3 text-center">
-        <h2 [ngClass]="{'done':todo.completed === true}">{{todo.name}}</h2>
-        <p [ngClass]="{'done':todo.completed === true}">{{todo.note}}</p>
-        <div>
-            <div class="completed-checkbox">
-                <label>
-                            <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
-                            <span id="radio">Completed</span>
-                        </label>
+<section id="details-section">
+    <div class="dark-overlay">
+        <div class="section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                            <div class="card">
+                                    <div class="card-block text-center">
+                                            <div *ngIf="loading" class="text-center">
+                                                    <img src="/assets/img/loading.gif">
+                                                </div>
+                                            <div [hidden]="loading">
+                                                    <h2 [ngClass]="{'done':todo.completed === true}">{{todo.name}}</h2>
+                                                    <p [ngClass]="{'done':todo.completed === true}">{{todo.note}}</p>
+                                                    <div>
+                                                        <div class="completed-checkbox">
+                                                            <label>
+                                                                        <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
+                                                                        <span id="radio">Completed</span>
+                                                                    </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    </div>
+                            </div>
+                    </div>
+                </div>
+<br>
+                <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                                <div class="card">
+                                        <h3 class="card-header bg-primary text-center">Edit Todo</h3>
+                                        <div class="card-block">
+                                                <form #editForm="ngForm" (ngSubmit)="saveEditedTodo()">
+                                                        <div class="form-group">
+                                                            <label for="user-name">Todo</label>
+                                                            <input name="todoname" type="text" class="form-control" id="todo-name" [(ngModel)]="todo.name" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="todo-note">Note</label>
+                                                            <textarea rows="5" name="todo-note" type="text" class="form-control" id="note" [(ngModel)]="todo.note" required></textarea>
+                                                        </div>
+                                                        <div class="check-box-wrap">
+                                                            <div class="completed-checkbox">
+                                                                <label>
+                                                                            <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
+                                                                            <span id="radio">Completed</span>
+                                                                        </label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div>
+                                                            <button type="submit" class="btn btn-success btn-lg btn-block"><span *ngIf="loading">Updating...</span> <span *ngIf="!loading">Update</span></button>
+                                                        </div>
+                                                    </form> 
+                                        </div>
+                                </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="col-md-6 offset-md-3 mt-3 edit-todo">
-    <div class="jumbotron mt-3 text-center">
-        <h2>Edit Todo</h2>
-        <div class="row">
-        <div class="col-md-12">
-            <form #editForm="ngForm" (ngSubmit)="saveEditedTodo()">
-                <div class="form-group">
-                    <label for="user-name">Todo</label>
-                    <input name="todoname" type="text" class="form-control" id="todo-name" [(ngModel)]="todo.name" required>
-                </div>
-                <div class="form-group">
-                    <label for="todo-note">Note</label>
-                    <textarea rows="5" name="todo-note" type="text" class="form-control" id="note" [(ngModel)]="todo.note" required></textarea>
-                </div>
-                <div class="check-box-wrap">
-                    <div class="completed-checkbox">
-                        <label>
-                                    <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
-                                    <span id="radio">Completed</span>
-                                </label>
-                    </div>
-                </div>
-                
-                <div>
-                    <button type="submit" class="btn btn-success">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>
-</div>
+</section>

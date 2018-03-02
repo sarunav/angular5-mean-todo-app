@@ -9,6 +9,7 @@ import { TodoService } from '../todo.service';
 })
 export class AddTodoComponent implements OnInit {
   todo: Todo = new Todo;
+  loading = false;
 
   constructor(
     private todoService: TodoService
@@ -19,10 +20,15 @@ export class AddTodoComponent implements OnInit {
 
   addTodo(){
     let todo = this.todo;
+    this.loading = true;
 this.todoService.addTodo(todo.name, todo.note)
 .subscribe(response => {
+  this.loading = false;
   console.log(response);
+  todo.name = '';
+  todo.note = '';
 }, err => {
+  this.loading = false;
   console.log(err);
 })
   }

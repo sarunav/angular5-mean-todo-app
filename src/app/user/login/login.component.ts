@@ -15,6 +15,7 @@ import { Toast } from 'angular2-toaster/src/toast';
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
+  loading = false;
 
   constructor(
     private userService: UserService,
@@ -22,14 +23,14 @@ export class LoginComponent implements OnInit {
     private todoService: TodoService,
     private router: Router,
     private toasterService: ToasterService
-  ) { }
+  ) { } 
 
   ngOnInit() {
   }
 
   onLogin(){
     console.log("Data: ", this.user);
-
+    this.loading = true;
     let user = this.user;
     this.userService.login(user.userName, user.password)
     .subscribe(response => {
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
       let token = response.token;
       this.authService.setToken(token);
       console.log(token);
-
+ 
       var toastSuccess: Toast = {
         type: 'success',
         title: 'Success',
@@ -46,6 +47,7 @@ export class LoginComponent implements OnInit {
       };
       this.toasterService.pop(toastSuccess);
 
+      this.loading = false;
       // redirect to profile page
       this.router.navigate(['/my-account']);
 
@@ -54,7 +56,7 @@ export class LoginComponent implements OnInit {
       var toastErr: Toast = {
         type: 'error',
         title: 'Error',
-        body: err,
+        body: err.error.message,
       };
       this.toasterService.pop(toastErr);
     });

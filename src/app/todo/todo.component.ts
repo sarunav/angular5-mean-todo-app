@@ -11,17 +11,21 @@ declare var swal: any;
 })
 export class TodoComponent implements OnInit {
   todos: Todo[] = [];
+  loading = false;
 
   constructor(
     private todoService: TodoService
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.todoService.getTodos().subscribe(res => {
       console.log(res);
+      this.loading = false;
       this.todos = res as Todo[];
     }, err => {
       console.log(err);
+      this.loading = false;
     });
   }
 

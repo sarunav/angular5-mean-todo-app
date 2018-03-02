@@ -89,7 +89,10 @@ router.post('/login', function(req, res) {
         if (err) throw err;
 
         if (!user) {
-            res.send({ message: "User does not exist" });
+            res.status(403).send({
+                error: true,
+                message: 'User does not exist'
+            })
         } else if (user) {
             user.comparePassword(req.body.password).then(function(isMatch) {
                 if (!isMatch) {

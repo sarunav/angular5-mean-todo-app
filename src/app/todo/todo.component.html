@@ -1,45 +1,64 @@
-<div class="add-todo-btn-wrap mt-5">
-    <button [hidden]="!todos.length" class="btn btn-primary" routerLink="/add-todo">Add Todo</button>
-</div>
-
-<div [hidden]="todos.length" class="col-md-12">
-    <div class="jumbotron mt-3 text-center">
-        <h1 class="display-3">No todos added yet!</h1>
-        <hr class="my-4">
-        <p>Click to create Todos</p>
-        <p class="lead">
-            <button class="btn btn-primary" routerLink="/add-todo">Add Todo</button>
-        </p>
-    </div>
-</div>
-
-<table [hidden]="!todos.length" class="table table-dark mt-4">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Todo</th>
-            <th scope="col">Note</th>
-            <th scope="col">Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let todo of todos; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td><a routerLink="/todo/{{todo._id}}" [ngClass]="{'done':todo.completed === true}">{{todo.name}}</a></td>
-            <td [ngClass]="{'done':todo.completed === true}">{{todo.note}}</td>
-            <td>
-                <div class="completed-checkbox">
-                    <label>
-                    <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
-                    <span id="radio">Completed</span> 
-                    </label>
+<section id="todo-section">
+    <div class="dark-overlay">
+        <div class="section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                            <div class="card">
+                                    <div class="card-block">
+                                        <div *ngIf="loading" class="text-center">
+                                            <img src="/assets/img/loading.gif">
+                                        </div>
+                                            
+                                        <div class="add-todo-btn-wrap">
+                                            <button [hidden]="!todos.length || loading" class="btn btn-primary" routerLink="/add-todo">Add Todo</button>
+                                        </div>
+                                        
+                                        <div [hidden]="todos.length || loading" class="">
+                                            <div class="text-center">
+                                                <h1 class="display-3">No todos added yet!</h1>
+                                                <hr class="my-4">
+                                                <h5>Click to create Todos</h5>
+                                                <p class="lead">
+                                                    <button class="btn btn-primary btn-lg" routerLink="/add-todo">Add Todo</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <table [hidden]="!todos.length" class="table table-dark table-responsive mt-4">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th width="5%">#</th>
+                                                    <th width="20%">Todo</th>
+                                                    <th width="25%">Note</th>
+                                                    <th width="10%">Status</th>
+                                                    <th width="20%">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let todo of todos; let i = index">
+                                                    <th scope="row">{{i + 1}}</th>
+                                                    <td><a routerLink="/todo/{{todo._id}}" [ngClass]="{'done':todo.completed === true}">{{todo.name}}</a></td>
+                                                    <td [ngClass]="{'done':todo.completed === true}">{{todo.note}}</td>
+                                                    <td>
+                                                        <div class="completed-checkbox">
+                                                            <label>
+                                                            <input name="complete" type="checkbox" [(ngModel)]="todo.completed" (change)="updateTodoStatus(todo._id, todo.name, todo.note, todo.completed)">
+                                                            <span id="radio">Completed</span> 
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a routerLink="/todo/{{todo._id}}" class="btn btn-primary btn-sm">Edit</a>
+                                                        <a class="btn btn-danger btn-sm" (click)="deleteTodo(todo._id)">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </div>
+                    </div>
                 </div>
-            </td>
-            <td>
-                <a routerLink="/todo/{{todo._id}}" class="btn btn-primary btn-sm">Edit</a>
-                <a class="btn btn-danger btn-sm" (click)="deleteTodo(todo._id)">Delete</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            </div>
+        </div>
+    </div>
+</section>

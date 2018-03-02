@@ -23,7 +23,7 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'todos', component: TodoComponent, canActivate: [AuthGuardService] },
   { path: 'todo/:id', component: TodoDetailsComponent, canActivate: [AuthGuardService] },
-  { path: 'register', component: SignupComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'my-account', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'add-todo', component: AddTodoComponent, canActivate: [AuthGuardService] },

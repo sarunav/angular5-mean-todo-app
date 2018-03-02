@@ -19,7 +19,7 @@ export class AppComponent {
     private http: HttpClient,
     private userService: UserService,
     private router: Router,
-    private authService: AuthService
+    public authService: AuthService
   ) {
   }
 
